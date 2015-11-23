@@ -273,8 +273,15 @@ else
 arch_variant := $(TARGET_ARCH_VARIANT)
 endif
 
+ifeq ($(TARGET_TEGRA_VERSION),t20)
+# Tegra 2 supports arm specific sqrt and sqrtf
+LOCAL_SRC_FILES_arm += \
+    arm/e_sqrt.S \
+    arm/e_sqrtf.S \
+    upstream-freebsd/lib/msun/src/s_floor.c \
+
+else ifeq ($(arch_variant),armv7-a)
 # Use the C version on armv7-a since it doesn't support neon instructions.
-ifeq ($(arch_variant),armv7-a)
 LOCAL_SRC_FILES_arm += \
     upstream-freebsd/lib/msun/src/e_sqrt.c \
     upstream-freebsd/lib/msun/src/e_sqrtf.c \
