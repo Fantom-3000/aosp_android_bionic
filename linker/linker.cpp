@@ -3273,11 +3273,13 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
   }
   si->dynamic = nullptr;
 
+#ifndef ENABLE_NON_PIE_SUPPORT
   ElfW(Ehdr)* elf_hdr = reinterpret_cast<ElfW(Ehdr)*>(si->base);
   if (elf_hdr->e_type != ET_DYN) {
     __libc_format_fd(2, "error: only position independent executables (PIE) are supported.\n");
     exit(EXIT_FAILURE);
   }
+#endif
 
   // Use LD_LIBRARY_PATH and LD_PRELOAD (but only if we aren't setuid/setgid).
   parse_LD_LIBRARY_PATH(ldpath_env);

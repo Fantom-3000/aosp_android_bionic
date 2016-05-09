@@ -45,6 +45,10 @@ LOCAL_CPPFLAGS += \
     -std=gnu++11 \
     -Wold-style-cast \
 
+ifeq ($(TARGET_ENABLE_NON_PIE_SUPPORT),true)
+    LOCAL_CFLAGS += -DENABLE_NON_PIE_SUPPORT
+endif
+
 ifeq ($(TARGET_IS_64_BIT),true)
 LOCAL_CPPFLAGS += -DTARGET_IS_64_BIT
 endif
